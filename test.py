@@ -16,7 +16,7 @@ transform = transforms.Compose([
 
 # MNIST 데이터셋을 불러온다. 지정한 폴더에 없을 경우 자동으로 다운로드한다.
 mnist = datasets.MNIST(root='data', download=True, transform=transform)
-                 
+                    
 # 데이터를 한번에 batch_size만큼만 가져오는 dataloader를 만든다.
 dataloader = DataLoader(mnist, batch_size=60, shuffle=True)
 
