@@ -7,7 +7,7 @@ from torchvision import datasets, transforms
 from torch.utils.data import DataLoader
 from torch.autograd import Variable
 import pickle
-
+난 최고다
 # 데이터 전처리 방식을 지정한다.
 transform = transforms.Compose([
         transforms.ToTensor(), # 데이터를 PyTorch의 Tensor 형식으로 바꾼다.
