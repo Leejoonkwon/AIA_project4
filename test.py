@@ -20,7 +20,7 @@ mnist = datasets.MNIST(root='data', download=True, transform=transform)
 # 데이터를 한번에 batch_size만큼만 가져오는 dataloader를 만든다.
 dataloader = DataLoader(mnist, batch_size=60, shuffle=True)
 
-import os
+import os   
 import imageio
 
 if torch.cuda.is_available():
