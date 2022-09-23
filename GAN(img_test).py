@@ -259,7 +259,7 @@ for epoch in range(epochs):
     pass
      
   pass
-                          
+                            
 # plot several outputs from the trained generator
 
 # plot a 3 column, 2 row array of generated images
