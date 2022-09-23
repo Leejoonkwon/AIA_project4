@@ -258,7 +258,7 @@ for epoch in range(epochs):
    
     pass
      
-  pass
+  pass  
                             
 # plot several outputs from the trained generator
 
