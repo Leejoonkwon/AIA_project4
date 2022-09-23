@@ -255,7 +255,7 @@ for epoch in range(epochs):
     
     # train generator
     G.train(D, generate_random_seed(100), torch.cuda.FloatTensor([1.0]))
-
+ 
     pass
      
   pass
