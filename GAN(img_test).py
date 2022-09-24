@@ -15,7 +15,11 @@ if torch.cuda.is_available():
   pass
 
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-
+def crop_centre(img,new_width,new_height):
+    height,width,_ = img.shape
+    startx = width//2 - new_width//2
+    starty = height//2 - new_height//2
+    return img[starty:starty+new_height,startx:startx+new_width,:]
 class CelebADataset(Dataset):
     def __init__(self,file):
         self.file_object = h5py.File(file,'r')
@@ -29,19 +33,24 @@ class CelebADataset(Dataset):
         if (index >= len(self.dataset)):
             raise IndexError()
         img = np.array(self.dataset[str(index)+'.jpg'])
-        return torch.cuda.FloatTensor(img)/255.0
+        img = crop_centre(img, 128, 128)
+        return torch.cuda.FloatTensor(img).permute(2,0,1).view(1,3,128,128)/255.0
+    
     def plot_image(self,index):
-        plt.imshow(np.array(self.dataset[str(index)+'.jpg']),
-                   interpolation='nearest')
+        img = np.array(self.dataset[str(index)+'.jpg'])
+        img = crop_centre(img,128,128)
+        plt.imshow(img,interpolation='nearest')
+        # plt.show()
         pass
     pass
 
 # Dataset 객체 생성
-celeba_dataset =CelebADataset('D:\study_data\_data\\test108\celeba_aligned_small.h5py')
+celeba_dataset = CelebADataset('D:\study_data\_data\\test108\celeba_aligned_small.h5py')
 
 # 데이터 확인
-celeba_dataset.plot_image(50)
+celeba_dataset.plot_image(1)
 # plt.show()
+
 
 # functions to generate random data
 
@@ -66,6 +75,8 @@ class View(nn.Module):
     
 # discriminator class
 
+# discriminator class
+
 class Discriminator(nn.Module):
     
     def __init__(self):
@@ -74,14 +85,23 @@ class Discriminator(nn.Module):
         
         # define neural network layers
         self.model = nn.Sequential(
-            View(218*178*3),
+            # expect input of shape (1,3,128,128)
+            nn.Conv2d(3, 256, kernel_size=8, stride=2),
+            nn.BatchNorm2d(256),
+            #nn.LeakyReLU(0.2),
+            nn.GELU(),
             
-            nn.Linear(3*218*178, 100),
-            nn.LeakyReLU(),
+            nn.Conv2d(256, 256, kernel_size=8, stride=2),
+            nn.BatchNorm2d(256),
+            #nn.LeakyReLU(0.2),
+            nn.GELU(),
             
-            nn.LayerNorm(100),
+            nn.Conv2d(256, 3, kernel_size=8, stride=2),
+            #nn.LeakyReLU(0.2),
+            nn.GELU(),
             
-            nn.Linear(100, 1),
+            View(3*10*10),
+            nn.Linear(3*10*10, 1),
             nn.Sigmoid()
         )
         
@@ -134,7 +154,6 @@ class Discriminator(nn.Module):
     
     pass
 
-
 # test discriminator can separate real data from random noise
 
 D = Discriminator()
@@ -149,8 +168,17 @@ for image_data_tensor in celeba_dataset:
     D.train(generate_random_image((218,178,3)), torch.cuda.FloatTensor([0.0]))
     pass
 '''
+# for i in range(4):
+#   image_data_tensor = celeba_dataset[random.randint(0,20000)]
+#   print( D.forward( image_data_tensor ).item() )
+#   pass
+
+# for i in range(4):
+#   print( D.forward( generate_random_image((1,3,128,128))).item() )
+#   pass
 
 # generator class
+
 
 class Generator(nn.Module):
     
@@ -160,15 +188,29 @@ class Generator(nn.Module):
         
         # define neural network layers
         self.model = nn.Sequential(
-            nn.Linear(100, 3*10*10),
-            nn.LeakyReLU(),
+            # input is a 1d array
+            nn.Linear(100, 3*11*11),
+            #nn.LeakyReLU(0.2),
+            nn.GELU(),
             
-            nn.LayerNorm(3*10*10),
+            # reshape to 4d
+            View((1, 3, 11, 11)),
             
-            nn.Linear(3*10*10, 3*218*178),
+            nn.ConvTranspose2d(3, 256, kernel_size=8, stride=2),
+            nn.BatchNorm2d(256),
+            #nn.LeakyReLU(0.2),
+            nn.GELU(),
+
+            nn.ConvTranspose2d(256, 256, kernel_size=8, stride=2),
+            nn.BatchNorm2d(256),
+            #nn.LeakyReLU(0.2),
+            nn.GELU(),
+
+            nn.ConvTranspose2d(256, 3, kernel_size=8, stride=2, padding=1),
+            nn.BatchNorm2d(3),
             
-            nn.Sigmoid(),
-            View((218,178,3))
+            # output should be (1,3,128,128)
+            nn.Sigmoid()
         )
         
         # create optimiser, simple stochastic gradient descent
@@ -217,28 +259,15 @@ class Generator(nn.Module):
     
     pass
 
-# check the generator output is of the right type and shape
-
-G = Generator()
-# move model to cuda device
-G.to(DEVICE)
-
-output = G.forward(generate_random_seed(100))
-
-img = output.detach().cpu().numpy()
-
-plt.imshow(img, interpolation='none', cmap='Blues')
-
-
-
 # create Discriminator and Generator
+
 
 D = Discriminator()
 D.to(DEVICE)
 G = Generator()
 G.to(DEVICE)
 
-epochs = 10
+epochs = 1
 
 for epoch in range(epochs):
   print ("epoch = ", epoch + 1)
@@ -259,7 +288,7 @@ for epoch in range(epochs):
     pass
               
   pass  
-                            
+                         
 # plot several outputs from the trained generator
 
 # plot a 3 column, 2 row array of generated images
@@ -267,7 +296,7 @@ f, axarr = plt.subplots(2,3, figsize=(16,8))
 for i in range(2):
     for j in range(3):
         output = G.forward(generate_random_seed(100))
-        img = output.detach().cpu().numpy()
+        img = output.detach().permute(0,2,3,1).view(128,128,3).cpu().numpy()
         axarr[i,j].imshow(img, interpolation='none', cmap='Blues')
         pass
     pass
