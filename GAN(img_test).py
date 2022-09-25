@@ -159,7 +159,7 @@ class Discriminator(nn.Module):
 D = Discriminator()
 # move model to cuda device
 D.to(DEVICE) 
-                                                 
+                                                   
 '''
 for image_data_tensor in celeba_dataset:
     # real data
