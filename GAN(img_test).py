@@ -153,7 +153,7 @@ class Discriminator(nn.Module):
         pass
     
     pass
-
+ 
 # test discriminator can separate real data from random noise
   
 D = Discriminator()
