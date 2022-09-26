@@ -1,4 +1,3 @@
-from AIA_project4.GAN(img_test) import View
 import torch
 import torch.nn as nn
 import numpy as np

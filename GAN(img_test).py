@@ -7,13 +7,14 @@ import matplotlib.pyplot as plt
 from torch.utils.data import Dataset
 import pandas as pd
 import random
+import time
 # USE_CUDA = torch.cuda.is_available()
 # DEVICE = torch.device('cuda:0' if USE_CUDA else 'cpu')
 if torch.cuda.is_available():
   torch.set_default_tensor_type(torch.cuda.FloatTensor)
   print("using cuda:", torch.cuda.get_device_name(0))
   pass
-
+  
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 def crop_centre(img,new_width,new_height):
     height,width,_ = img.shape
@@ -267,8 +268,8 @@ D.to(DEVICE)
 G = Generator()
 G.to(DEVICE)
 
-epochs = 1
-
+epochs = 5
+start_time = time.time()
 for epoch in range(epochs):
   print ("epoch = ", epoch + 1)
 
@@ -300,6 +301,7 @@ for i in range(2):
         axarr[i,j].imshow(img, interpolation='none', cmap='Blues')
         pass
     pass
+print('걸린 시간 : ',time.time()-start_time)
 plt.show()
 
 
