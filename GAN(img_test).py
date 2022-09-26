@@ -14,7 +14,7 @@ if torch.cuda.is_available():
   torch.set_default_tensor_type(torch.cuda.FloatTensor)
   print("using cuda:", torch.cuda.get_device_name(0))
   pass
-                                           
+                                             
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 def crop_centre(img,new_width,new_height):
     height,width,_ = img.shape
