@@ -17,7 +17,7 @@ def generate_real():
         ])
     return real_data
 print(generate_real()) # tensor([0.8720, 0.1870, 0.9756, 0.1758])
-                                       
+                                          
 class Discriminator(nn.Module):
     def __init__(self):
         super().__init__() # pytorch 부모 클래스 초기화
