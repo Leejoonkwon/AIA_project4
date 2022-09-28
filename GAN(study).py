@@ -31,7 +31,7 @@ class Discriminator(nn.Module):
                                     
         # Adam 옵티마이저 설정
         self.optimiser = Adam(self.parameters(),lr=0.01)
-         
+           
         # 진행 측정을 위한 변수 초기화
         self.counter = 0
         self.progress = []
