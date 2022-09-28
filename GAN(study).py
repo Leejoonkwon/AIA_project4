@@ -28,7 +28,7 @@ class Discriminator(nn.Module):
             nn.Sigmoid())
         # 손실함수 정의
         self.loss_function = nn.MSELoss()    
-                     
+                         
         # Adam 옵티마이저 설정
         self.optimiser = Adam(self.parameters(),lr=0.01)
          
