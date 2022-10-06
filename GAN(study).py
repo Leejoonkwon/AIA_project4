@@ -17,7 +17,7 @@ def generate_real():
         ])
     return real_data
 print(generate_real()) # tensor([0.8720, 0.1870, 0.9756, 0.1758])
-
+                                                            
 class Discriminator(nn.Module):
     def __init__(self):
         super().__init__() # pytorch 부모 클래스 초기화
@@ -28,10 +28,10 @@ class Discriminator(nn.Module):
             nn.Sigmoid())
         # 손실함수 정의
         self.loss_function = nn.MSELoss()    
-        
+                                                
         # Adam 옵티마이저 설정
         self.optimiser = Adam(self.parameters(),lr=0.01)
-        
+                                                               
         # 진행 측정을 위한 변수 초기화
         self.counter = 0
         self.progress = []
