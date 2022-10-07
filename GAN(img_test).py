@@ -21,6 +21,8 @@ def crop_centre(img,new_width,new_height):
     startx = width//2 - new_width//2
     starty = height//2 - new_height//2
     return img[starty:starty+new_height,startx:startx+new_width,:]
+
+
 class CelebADataset(Dataset):
     def __init__(self,file):
         self.file_object = h5py.File(file,'r')
