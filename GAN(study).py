@@ -38,7 +38,7 @@ class Discriminator(nn.Module):
         pass
     def forward(self,inputs):
         return self.model(inputs)
-                  
+                     
     def train(self,inputs,targets):
         # 신경망 출력 계산
         outputs = self.forward(inputs)
