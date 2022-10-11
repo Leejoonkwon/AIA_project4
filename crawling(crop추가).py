@@ -105,7 +105,7 @@ def Cutting_face_save(image, name):
     #     # cv2.imshow("crop&resize", resize)
     #     cv2.waitKey(0)
     #     cv2.destroyAllWindows()
-     
+        
         # 이미지 저장하기
         cv2.imwrite(f"이정재/{name}.jpg", cropped)
                          
