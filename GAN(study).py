@@ -28,17 +28,17 @@ class Discriminator(nn.Module):
             nn.Sigmoid())
         # 손실함수 정의
         self.loss_function = nn.MSELoss()    
-                                                
+                                                  
         # Adam 옵티마이저 설정
         self.optimiser = Adam(self.parameters(),lr=0.01)
-                                                               
+                                                                                                                  
         # 진행 측정을 위한 변수 초기화
         self.counter = 0
         self.progress = []
         pass
     def forward(self,inputs):
         return self.model(inputs)
-
+                                
     def train(self,inputs,targets):
         # 신경망 출력 계산
         outputs = self.forward(inputs)
