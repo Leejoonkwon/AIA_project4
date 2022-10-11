@@ -108,7 +108,7 @@ def Cutting_face_save(image, name):
 
         # 이미지 저장하기
         cv2.imwrite(f"이정재/{name}.jpg", cropped)
-                
+                   
 for name in file_name_list:
     img = cv2.imread("이정재/"+name+".jpg")
     Cutting_face_save(img, name)
