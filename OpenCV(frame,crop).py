@@ -3,7 +3,7 @@ import cv2
 
 vidcap = cv2.VideoCapture("D:\study_data/1.mp4")
 count = 0
-
+  
 while(vidcap.isOpened()):
     ret, image = vidcap.read()
     cv2.imwrite("D:\study_data/frame%d.jpg" % count,image)
