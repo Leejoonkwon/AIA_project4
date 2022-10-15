@@ -9,7 +9,7 @@ while(vidcap.isOpened()):
     cv2.imwrite("D:\study_data/frame%d.jpg" % count,image)
     print("Saved fram%d.jpg" % count)
     count += 1
-                                                                  
+                                                                    
 vidcap.release()
 ################## 1/20 프레임 단위로 저장  
 '''   
