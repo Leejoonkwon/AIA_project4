@@ -38,7 +38,7 @@ file_name_list = []
 for i in range(len(file_list)):
     file_name_list.append(file_list[i].replace(".jpg",""))
 print(file_name_list)
-                                                                 
+                                                                     
                                                                       
 print(file_name_list[0])
 def Cutting_face_save(image, name):
