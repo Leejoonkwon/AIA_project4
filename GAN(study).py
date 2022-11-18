@@ -8,7 +8,7 @@ import time
 import numpy as np
 start_time = time.time()
 # funtion to generate real data
-              
+               
 def generate_real():
     real_data = torch.FloatTensor([
         random.uniform(0.8 , 1.0),
