@@ -4,7 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from torch.optim import Adam
 from torch.utils.data import Dataset
-import pandas as pd
+import pandas as pd 
                                                                                                                                                                                                                                                                                                                                                                         
 class MnistDataset(Dataset):
     def __init__(self,csv_file):
