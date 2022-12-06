@@ -6,7 +6,7 @@ from torch.optim import Adam
 from torch.utils.data import Dataset
 import pandas as pd 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
-class MnistDataset(Dataset):
+   class MnistDataset(Dataset):
     def __init__(self,csv_file):
         self.data_df = pd.read_csv(csv_file,header=None)
         pass
