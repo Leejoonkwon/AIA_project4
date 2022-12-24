@@ -41,7 +41,7 @@ class Classifier(nn.Module):
         self.model = nn.Sequential(
             nn.Conv2d(1,10,kernel_size=3,stride=2),
             nn.LeakyReLU(0.02),
-            nn.BatchNorm2d(200),
+            nn.BatchNorm2d(200),# layernorm으로 대체가능하지만 성능은 떨어짐
             
             nn.Conv2d(10,10,kernel_size=3,stride=2),
             nn.LeakyReLU(0.02),
